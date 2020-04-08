@@ -1,0 +1,17 @@
+# Files produced by bad patch & diff runs
+*~*~
+*.rej
+*.diff
+*.orig
+interdiff*.txt
+
+# IDE artifacts
+*~
+\#*\#
+*.swp
+.DS*
+._.DS*
+.project
+.idea
+.vscode
+.history

@@ -33,6 +33,3 @@ RUN \
 	. $HOME/.profile && \
 	# Install node packages
 	npm install -g puppeteer@1.20.0 pa11y@5 pa11y-ci@2
-
-# IMPORTANT! Switching back to the root user as the last instruction.
-USER root
