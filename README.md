@@ -2,7 +2,7 @@
 
 > Docker image adding pa11y and other common tools to [Docksal CLI](https://github.com/docksal/service-cli).
 
-[![GitHub tag](https://img.shields.io/github/tag/phase2/docker-cli.svg)](https://github.com/phase2/docker-cli) [![Docker Stars](https://img.shields.io/docker/stars/outrigger/cli.svg)](https://hub.docker.com/r/outrigger/cli) [![Docker Pulls](https://img.shields.io/docker/pulls/outrigger/cli.svg)](https://hub.docker.com/r/outrigger/cli) [![](https://images.microbadger.com/badges/image/outrigger/cli:dev.svg)](https://microbadger.com/images/outrigger/cli:dev "Get your own image badge on microbadger.com")
+[![GitHub tag](https://img.shields.io/github/tag/phase2/docker-cli.svg)](https://github.com/phase2/docker-cli) [![Docker Stars](https://img.shields.io/docker/stars/outrigger/cli.svg)](https://hub.docker.com/r/outrigger/cli) [![Docker Pulls](https://img.shields.io/docker/pulls/outrigger/cli.svg)](https://hub.docker.com/r/outrigger/cli) [![](https://images.microbadger.com/badges/image/outrigger/cli:dev.svg)](https://microbadger.com/images/outrigger/cli:latest "Get your own image badge on microbadger.com")
 
 This Docker image adds the following tools to the docksal/cli image:
 * [pa11y v5](https://github.com/pa11y/pa11y)
