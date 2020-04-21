@@ -2,9 +2,19 @@
 
 set -e
 
-versions=("7.2" "7.3" "7.4")
-default_version="7.3"
-for version in $versions; do
-  docker build --build-arg DOCKSAL_CLI=2-php${version} -t outrigger/cli:2-php${version} .
+# Get the versions to build
+
+# If they are passed as args
+if [ $# -gt 0 ]; then
+  buildDirs="$@"
+else
+  # else, get all the relevant dirs
+  buildDirs=$(ls | grep -E '^php[0-9\.]+$')
+fi
+
+# Build each one of them
+for version in $buildDirs; do
+  pushd $version
+  docker build -t outrigger/cli:2-${version} .
+  popd
 done
-#docker tag "outrigger/cli:2-php${default_version}" "outrigger/cli:latest"

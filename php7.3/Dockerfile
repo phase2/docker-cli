@@ -2,8 +2,7 @@
 #
 # Note how we use cli:2 here, which refers the latest available 2.x version
 # So that we wouldn't need to update this every time new version of Docksal cli releases
-ARG DOCKSAL_CLI=2-php7.3
-FROM docksal/cli:$DOCKSAL_CLI
+FROM docksal/cli:2-php7.3
 
 # Puppeteer dependencies taken from https://github.com/alekzonder/docker-puppeteer
 # Install addtional apt packages needed for pa11y and puppeteer
