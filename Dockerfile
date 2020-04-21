@@ -2,7 +2,8 @@
 #
 # Note how we use cli:2 here, which refers the latest available 2.x version
 # So that we wouldn't need to update this every time new version of Docksal cli releases
-FROM docksal/cli:2-php7.3
+ARG DOCKSAL_CLI=2-php7.3
+FROM docksal/cli:$DOCKSAL_CLI
 
 # Puppeteer dependencies taken from https://github.com/alekzonder/docker-puppeteer
 # Install addtional apt packages needed for pa11y and puppeteer
@@ -16,6 +17,16 @@ RUN apt-get update && \
   ca-certificates fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget vim && \
   apt-get --purge remove && \
   apt-get clean && apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
+
+ARG HELM_VERSION=v2.12.3
+
+# Next install tools from phase2/docker-gitlab-ci-workspace
+RUN curl -o /usr/local/bin/kubectl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && \
+  chmod +x /usr/local/bin/kubectl && \
+  curl -o ./install_helm.sh https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get && \
+  chmod +x ./install_helm.sh && \
+  ./install_helm.sh -v ${HELM_VERSION} && \
+  helm init --client-only
 
 # All further commands will be performed as the docker user.
 USER docker
