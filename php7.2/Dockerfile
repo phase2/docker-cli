@@ -27,6 +27,10 @@ RUN curl -o /usr/local/bin/kubectl -LO https://storage.googleapis.com/kubernetes
   ./install_helm.sh -v ${HELM_VERSION} && \
   helm init --client-only
 
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
+  python get-pip.py && \
+  pip install awscli
+
 # All further commands will be performed as the docker user.
 USER docker
 SHELL ["/bin/bash", "-c"]
