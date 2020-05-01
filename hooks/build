@@ -1,0 +1,14 @@
+#!/bin/bash
+
+echo "In build"
+printenv
+echo "Cur dir"
+pwd
+
+cliVersion="$SOURCE_BRANCH"
+phpVersions="$DOCKERFILE_PATH"
+#docker build \
+#  --build-arg CLI_VERSION=${cliVersion} \
+#  --build-arg PHP_VERSION=${phpVersion} \
+#  -t $IMAGE_NAME \
+#  .

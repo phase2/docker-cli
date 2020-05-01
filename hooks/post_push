@@ -1,0 +1,13 @@
+#!/bin/bash
+
+echo "Post Push"
+printenv
+
+# Parse image name for repo name
+tagStart=$(expr index "$IMAGE_NAME" :)
+repoName=${IMAGE_NAME:0:tagStart-1}
+tag="test"
+
+echo "repoName: $repoName"
+echo docker tag $IMAGE_NAME ${repoName}:${tag}
+echo docker push ${repoName}:${tag}
