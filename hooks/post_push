@@ -3,11 +3,9 @@
 echo "Post Push"
 printenv
 
-# Parse image name for repo name
-tagStart=$(expr index "$IMAGE_NAME" :)
-repoName=${IMAGE_NAME:0:tagStart-1}
-tag="test"
+shortVersion=${SOURCE_BRANCH%.*-php*}
+phpVersion=${SOURCE_BRANCH#*-}
+tag="${shortVersion}-${phpVersion}"
 
-echo "repoName: $repoName"
-echo docker tag $IMAGE_NAME ${repoName}:${tag}
-echo docker push ${repoName}:${tag}
+docker tag $IMAGE_NAME $DOCKER_REPO:${tag}
+docker push $DOCKER_REPO:${tag}

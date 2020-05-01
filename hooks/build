@@ -5,10 +5,4 @@ printenv
 echo "Cur dir"
 pwd
 
-cliVersion="$SOURCE_BRANCH"
-phpVersions="$DOCKERFILE_PATH"
-#docker build \
-#  --build-arg CLI_VERSION=${cliVersion} \
-#  --build-arg PHP_VERSION=${phpVersion} \
-#  -t $IMAGE_NAME \
-#  .
+docker build --build-arg CLI_VERSION=$DOCKER_TAG -f $DOCKERFILE_PATH -t $IMAGE_NAME .

@@ -1,7 +1,6 @@
-ARG CLI_VERSION=2.10
-ARG PHP_VERSION=php7.3
+ARG CLI_VERSION=2.10-php7.3
 # Extend the Docksal CLI per https://docs.docksal.io/stack/extend-images/
-FROM docksal/cli:${CLI_VERSION}-${PHP_VERSION}
+FROM docksal/cli:${CLI_VERSION}
 
 # Puppeteer dependencies taken from https://github.com/alekzonder/docker-puppeteer
 # Install addtional apt packages needed for pa11y and puppeteer
