@@ -2,19 +2,10 @@
 
 set -e
 
-# Get the versions to build
-
-# If they are passed as args
-if [ $# -gt 0 ]; then
-  buildDirs="$@"
-else
-  # else, get all the relevant dirs
-  buildDirs=$(ls | grep -E '^php[0-9\.]+$')
-fi
-
-# Build each one of them
-for version in $buildDirs; do
-  pushd $version
-  docker build -t outrigger/cli:2-${version} .
-  popd
+CLI_VERSION="2.10"
+for tag in {"php7.2" "php7.3"}; do
+  docker build \
+    --build-arg CLI_VERSION="${CLI_VERSION}-${tag}" \
+    -t outrigger/cli:${CLI_VERSION}-${tag} \
+    .
 done

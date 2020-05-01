@@ -1,8 +1,6 @@
 #!/bin/bash
 
-echo "In build"
 printenv
-echo "Cur dir"
-pwd
 
+echo "Building $DOCKER_TAG"
 docker build --build-arg CLI_VERSION=$DOCKER_TAG -f $DOCKERFILE_PATH -t $IMAGE_NAME .

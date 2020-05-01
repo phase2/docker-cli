@@ -1,11 +1,9 @@
 #!/bin/bash
 
-echo "Post Push"
-printenv
-
-shortVersion=${SOURCE_BRANCH%.*-php*}
-phpVersion=${SOURCE_BRANCH#*-}
+shortVersion=${DOCKER_TAG%.*-php*}
+phpVersion=${DOCKER_TAG#*-}
 tag="${shortVersion}-${phpVersion}"
 
+echo "Tagging with ${tag}"
 docker tag $IMAGE_NAME $DOCKER_REPO:${tag}
 docker push $DOCKER_REPO:${tag}
