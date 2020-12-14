@@ -9,6 +9,21 @@ This Docker image adds the following tools to the docksal/cli image:
 * [puppeteer v1.2](https://github.com/puppeteer/puppeteer) (needs testing with v2.x)
 * vim
 
+## DockerHub Integration
+
+* To generate new images for the latest Docksal version, add a new tag off `master` like `2.12`
+* To enable more PHP versions like `php7.4`, go into DockerHub and add another automated build target:
+  * Source Type: `Tag`
+  * Source: `^[0-9.]+$`
+  * Docker Tag: `{sourceref}-php7.4`
+  * Dockerfile Location: `Dockerfile`
+  * Build Context: `/`
+  * Autobuild: On
+  * Build Caching: Off
+* DockerHub has automated builds configured to watch for new [tags](https://github.com/phase2/docker-cli/tags)
+* It will match any tag with the pattern `[0-9.]+` basically so we can keep up with Docksal's #.## versioning format
+* DockerHub uses [hooks/build](hooks/build) to override the `CLI_VERSION` value with the matched tag for each of the PHP versions in the automated builds list
+
 ## Using pa11y with Docksal
 
 In the project `.docksal/docksal.env` set the following:
