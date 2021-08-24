@@ -18,8 +18,6 @@ jobs:
   push_image:
     name: Build and Push Docker image
     # Build a docker image and push to registry.
-    # TODO: Use public?
-    runs-on: self-hosted
     permissions:
       packages: write
       contents: read
