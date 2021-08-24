@@ -17,6 +17,7 @@ jobs:
 
   push_image:
     name: Build and Push Docker image
+    runs-on: self-hosted
     # Build a docker image and push to registry.
     permissions:
       packages: write
