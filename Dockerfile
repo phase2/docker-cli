@@ -5,7 +5,8 @@ FROM docksal/cli:${CLI_VERSION}
 # Puppeteer dependencies taken from https://github.com/alekzonder/docker-puppeteer
 # Install addtional apt packages needed for pa11y and puppeteer
 # Added vim.
-RUN apt-get update && \
+# --allow-releaseinfo-change per https://www.reddit.com/r/debian/comments/ca3se6/for_people_who_gets_this_error_inrelease_changed/
+RUN apt-get --allow-releaseinfo-change update && \
   apt-get install -yq gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 \
   libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 \
   libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 \
@@ -15,7 +16,7 @@ RUN apt-get update && \
   apt-get --purge remove && \
   apt-get clean && apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
 
-ARG HELM_VERSION=v2.12.3
+ARG HELM_VERSION=v2.17.0
 
 # Next install tools from phase2/docker-gitlab-ci-workspace
 RUN curl -o /usr/local/bin/kubectl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && \
@@ -25,9 +26,15 @@ RUN curl -o /usr/local/bin/kubectl -LO https://storage.googleapis.com/kubernetes
   ./install_helm.sh -v ${HELM_VERSION} && \
   helm init --client-only
 
-RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
-  python get-pip.py && \
-  pip install awscli
+# Also install helm3 as `helm3`
+RUN curl -s https://get.helm.sh/helm-v3.6.2-linux-amd64.tar.gz | sudo tar -C /tmp --no-same-owner -xvzf - linux-amd64/helm --strip-components 1 && \
+    mv /tmp/helm /bin/helm3
+
+# AWS CLI
+# https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+    unzip awscliv2.zip && \
+    sudo ./aws/install
 
 # All further commands will be performed as the docker user.
 USER docker
