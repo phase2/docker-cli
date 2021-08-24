@@ -1,4 +1,4 @@
-ARG CLI_VERSION=2.10-php7.3
+ARG CLI_VERSION=2.12-php7.4
 # Extend the Docksal CLI per https://docs.docksal.io/stack/extend-images/
 FROM docksal/cli:${CLI_VERSION}
 
