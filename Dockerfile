@@ -31,6 +31,10 @@ RUN curl -o /usr/local/bin/kubectl -LO https://storage.googleapis.com/kubernetes
 RUN curl -s https://get.helm.sh/helm-v3.6.2-linux-amd64.tar.gz | sudo tar -C /tmp --no-same-owner -xvzf - linux-amd64/helm --strip-components 1 && \
     mv /tmp/helm /bin/helm3
 
+# Install Kustomize
+# https://kubectl.docs.kubernetes.io/installation/kustomize/binaries/
+RUN curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
+
 # AWS CLI
 # https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
