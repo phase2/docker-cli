@@ -39,7 +39,7 @@ RUN curl -o /usr/local/bin/kubectl -LO "https://storage.googleapis.com/kubernete
   helm init --client-only
 
 # Also install helm3 as `helm3`
-RUN curl -s https://get.helm.sh/helm-v3.6.2-linux-"$(dpkg --print-architecture)".tar.gz | sudo tar -C /tmp --no-same-owner -xvzf - linux-amd64/helm --strip-components 1 && \
+RUN curl -s https://get.helm.sh/helm-v3.6.2-linux-"$(dpkg --print-architecture)".tar.gz | sudo tar -C /tmp --no-same-owner -xvzf - linux-"$(dpkg --print-architecture)"/helm --strip-components 1 && \
     mv /tmp/helm /bin/helm3
 
 # Install Kustomize
