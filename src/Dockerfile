@@ -59,7 +59,7 @@ RUN curl https://awscli.amazonaws.com/awscli-exe-linux-"$(uname -m)".zip -o "aws
 # Install yq
 # https://mikefarah.gitbook.io/yq/#wget
 RUN wget https://github.com/mikefarah/yq/releases/download/v4.21.1/yq_linux_"$(dpkg --print-architecture)".tar.gz -O - |\
-  tar xz && mv yq_linux_amd64 /usr/bin/yq
+  tar xz && mv yq_linux_"$(dpkg --print-architecture)" /usr/bin/yq
 
 # All further commands will be performed as the docker user.
 USER docker
