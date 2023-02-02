@@ -40,7 +40,8 @@ RUN wget https://github.com/mikefarah/yq/releases/download/v4.21.1/yq_linux_"$(d
   tar xz && mv yq_linux_"$(dpkg --print-architecture)" /usr/bin/yq
 
 # Install expect, vim
-RUN apt update && \
+RUN apt-get clean && \
+  apt update && \
   apt-get install expect -y && \
   apt-get install vim -y
 
