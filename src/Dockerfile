@@ -55,5 +55,6 @@ RUN \
   # Also write yarn to the default-packages file to be installed with nvm
   . "$HOME"/.profile && echo "yarn" > "$NVM_DIR"/default-packages
 
+ENV PATH=$PATH:/var/www/vendor/bin
 # IMPORTANT! Switching back to the root user as the last instruction.
 USER root
