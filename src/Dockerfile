@@ -22,7 +22,7 @@ RUN curl -s https://get.helm.sh/helm-v3.6.2-linux-"$(dpkg --print-architecture)"
 
 # Install Kustomize
 # https://kubectl.docs.kubernetes.io/installation/kustomize/binaries/
-RUN cd /bin/ && curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash && mv /usr/kustomize /bin
+RUN cd /bin/ && curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash && if [ -e /usr/kustomize ]; then mv /usr/kustomize /bin; fi
 
 # Install AWS cli
 COPY awscli.pubkey /tmp/
@@ -52,7 +52,7 @@ SHELL ["/bin/bash", "-c"]
 # Install additional global npm dependencies
 RUN \
   # Initialize the user environment (this loads nvm)
-  . "$HOME"/.profile
+  . "$HOME"/.profile && npm install -g yarn
 
 # IMPORTANT! Switching back to the root user as the last instruction.
 USER root
