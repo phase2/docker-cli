@@ -22,7 +22,7 @@ RUN curl -s https://get.helm.sh/helm-v3.6.2-linux-"$(dpkg --print-architecture)"
 
 # Install Kustomize
 # https://kubectl.docs.kubernetes.io/installation/kustomize/binaries/
-RUN cd /bin/ && curl -o /tmp/install_kustomize.sh -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" && bash /tmp/install_kustomize.sh /bin
+RUN cd /bin/ && curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash && if [ -e /usr/kustomize ]; then mv /usr/kustomize /bin; fi
 
 # Install AWS cli
 COPY awscli.pubkey /tmp/
