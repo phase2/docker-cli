@@ -52,7 +52,8 @@ SHELL ["/bin/bash", "-c"]
 # Install additional global npm dependencies
 RUN \
   # Initialize the user environment (this loads nvm)
-  . "$HOME"/.profile
+  # Also write yarn to the default-packages file to be installed with nvm
+  . "$HOME"/.profile && echo "yarn" > "$NVM_DIR"/default-packages
 
 # IMPORTANT! Switching back to the root user as the last instruction.
 USER root
