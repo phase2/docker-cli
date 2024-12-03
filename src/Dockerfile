@@ -39,15 +39,19 @@ RUN curl https://awscli.amazonaws.com/awscli-exe-linux-"$(uname -m)".zip -o "aws
 RUN wget https://github.com/mikefarah/yq/releases/download/v4.21.1/yq_linux_"$(dpkg --print-architecture)".tar.gz -O - |\
   tar xz && mv yq_linux_"$(dpkg --print-architecture)" /usr/bin/yq
 
-# Upgrade SQLite for Drupal 11 testing.
+# Upgrade SQLite 3.x for Drupal 11 testing if CLI version >= 8.3
 # @see https://www.drupal.org/project/drupal/issues/3346338
 # @see https://github.com/docksal/service-cli/pull/327/files
-RUN set -xe; \
+# Use the `bc` calculator to compare the PHP version number, removing the `php` prefix.
+# Need to get sqlite3 from the Debian testing repository as the default version is too old.
+RUN if [ "$(echo "${CLI_VERSION#php} >= 8.3" | bc -l)" -eq 1 ]; then \
+  set -xe; \
   echo "deb https://deb.debian.org/debian testing main" | tee /etc/apt/sources.list.d/testing.list; \
   apt-get update >/dev/null; \
-  apt-get install -y -t testing sqlite3;\
+  apt-get install -y -t testing sqlite3; \
   # Cleanup
-  apt-get clean; rm -rf /var/lib/apt/lists/*
+  apt-get clean; rm -rf /var/lib/apt/lists/*; \
+fi
 
 # Install expect, vim
 RUN apt-get clean && \
