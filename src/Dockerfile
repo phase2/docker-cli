@@ -7,6 +7,8 @@ FROM docksal/cli:${CLI_VERSION}
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 ARG HELM_VERSION=v2.17.0
+# Args defined before the FROM directive are not available in the build stage.
+ARG INSTALL_SQLITE=false
 
 # Install kubectl and helm client
 RUN curl -o /usr/local/bin/kubectl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/$(dpkg --print-architecture)/kubectl" && \
@@ -44,12 +46,11 @@ RUN wget https://github.com/mikefarah/yq/releases/download/v4.21.1/yq_linux_"$(d
 # @see https://github.com/docksal/service-cli/pull/327/files
 # Use the `bc` calculator to compare the PHP version number, removing the `php` prefix.
 # Need to get sqlite3 from the Debian testing repository as the default version is too old.
-RUN if [ "$(echo "${CLI_VERSION#php} >= 8.3" | bc -l)" -eq 1 ]; then \
+RUN if [ "$INSTALL_SQLITE" = "true" ]; then \
   set -xe; \
   echo "deb https://deb.debian.org/debian testing main" | tee /etc/apt/sources.list.d/testing.list; \
   apt-get update >/dev/null; \
   apt-get install -y -t testing sqlite3; \
-  # Cleanup
   apt-get clean; rm -rf /var/lib/apt/lists/*; \
 fi
 
