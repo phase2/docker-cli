@@ -7,6 +7,7 @@ CLI_VERSION=${1:-8.3}
 
 # Install SQLite 3.x for Drupal 11 testing if CLI version >= 8.3
 INSTALL_SQLITE=false
+# Use the `bc` calculator to compare the PHP version number.
 if [ "$(echo "${CLI_VERSION} >= 8.3" | bc -l)" -eq 1 ]; then
   INSTALL_SQLITE=true
 fi

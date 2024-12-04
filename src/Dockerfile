@@ -42,10 +42,9 @@ RUN curl https://awscli.amazonaws.com/awscli-exe-linux-"$(uname -m)".zip -o "aws
 RUN wget https://github.com/mikefarah/yq/releases/download/v4.21.1/yq_linux_"$(dpkg --print-architecture)".tar.gz -O - |\
   tar xz && mv yq_linux_"$(dpkg --print-architecture)" /usr/bin/yq
 
-# Upgrade SQLite 3.x for Drupal 11 testing if CLI version >= 8.3
+# Upgrade SQLite 3.x if specified in the build args.
 # @see https://www.drupal.org/project/drupal/issues/3346338
 # @see https://github.com/docksal/service-cli/pull/327/files
-# Use the `bc` calculator to compare the PHP version number, removing the `php` prefix.
 # Need to get sqlite3 from the Debian testing repository as the default version is too old.
 RUN if [ "$INSTALL_SQLITE" = "true" ]; then \
   set -xe; \
