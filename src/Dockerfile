@@ -7,7 +7,8 @@ FROM docksal/cli:${CLI_VERSION}
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 ARG HELM_VERSION=v2.17.0
-# Args defined before the FROM directive are not available in the build stage.
+# Args defined before the FROM directive are not available in the build stage,
+# so cannot test CLI_VERSION directly here.
 ARG INSTALL_SQLITE=false
 
 # Install kubectl and helm client
