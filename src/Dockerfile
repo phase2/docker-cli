@@ -7,6 +7,9 @@ FROM docksal/cli:${CLI_VERSION}
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 ARG HELM_VERSION=v2.17.0
+# Args defined before the FROM directive are not available in the build stage,
+# so cannot test CLI_VERSION directly here.
+ARG INSTALL_SQLITE=false
 
 # Install kubectl and helm client
 RUN curl -o /usr/local/bin/kubectl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/$(dpkg --print-architecture)/kubectl" && \
@@ -38,6 +41,18 @@ RUN curl https://awscli.amazonaws.com/awscli-exe-linux-"$(uname -m)".zip -o "aws
 # https://mikefarah.gitbook.io/yq/#wget
 RUN wget https://github.com/mikefarah/yq/releases/download/v4.21.1/yq_linux_"$(dpkg --print-architecture)".tar.gz -O - |\
   tar xz && mv yq_linux_"$(dpkg --print-architecture)" /usr/bin/yq
+
+# Upgrade SQLite 3.x if specified in the build args.
+# @see https://www.drupal.org/project/drupal/issues/3346338
+# @see https://github.com/docksal/service-cli/pull/327/files
+# Need to get sqlite3 from the Debian testing repository as the default version is too old.
+RUN if [ "$INSTALL_SQLITE" = "true" ]; then \
+  set -xe; \
+  echo "deb https://deb.debian.org/debian testing main" | tee /etc/apt/sources.list.d/testing.list; \
+  apt-get update >/dev/null; \
+  apt-get install -y -t testing sqlite3; \
+  apt-get clean; rm -rf /var/lib/apt/lists/*; \
+fi
 
 # Install expect, vim
 RUN apt-get clean && \
