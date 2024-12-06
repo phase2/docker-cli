@@ -87,7 +87,9 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           context: ./src
           file: ./src/Dockerfile
-          build-args: CLI_VERSION=php${{ matrix.version }}
+          build-args:
+            - CLI_VERSION=php${{ matrix.version }}
+            - INSTALL_SQLITE=${{ matrix.version == "8.3" }}
           platforms: linux/amd64,linux/arm64
           push:  ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.prep.outputs.tags }}
