@@ -19,7 +19,7 @@ This image can be used to directly replace the Docksal CLI image if these additi
 
 ## Handling different PHP versions
 
-The GitHub actions in `.github/workflows/default.yml` define a matrix of PHP versions being generated. Update this list with any new version needed. Must ensure that the upstream Docksal CLI image is available for each version of PHP.
+The GitHub actions in `.github/workflows/default.yml` define a matrix of PHP versions being generated. Update this list with any new version needed. Must ensure that the upstream Docksal CLI image is available for each version of PHP. Currently on version 8.x images are generated.
 
 ## Resources
 
