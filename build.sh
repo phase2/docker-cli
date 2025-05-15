@@ -3,7 +3,7 @@
 set -ex
 
 # Arguments: $1 CLI_VERSION
-CLI_VERSION=${1:-8.3}
+CLI_VERSION=${1:-8.4}
 
 # Install SQLite 3.x for Drupal 11 testing if CLI version >= 8.3
 INSTALL_SQLITE=false
