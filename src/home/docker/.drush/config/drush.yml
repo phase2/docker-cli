@@ -1,0 +1,7 @@
+  sql:
+    cli:
+      options:
+        extra: '--skip-ssl'
+    query:
+      options:
+        extra: '--skip-ssl'
