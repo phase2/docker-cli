@@ -1,7 +1,23 @@
+command:
   sql:
     cli:
       options:
-        extra: '--skip-ssl'
+        extra: '--disable-ssl'
     query:
       options:
-        extra: '--skip-ssl'
+        extra: '--disable-ssl'
+    dump:
+      options:
+        extra: '--disable-ssl'
+        extra-dump: '--disable-ssl'
+    drop:
+      options:
+        extra: '--disable-ssl'
+    create:
+      options:
+        extra: '--disable-ssl'
+  site:
+    install:
+      options:
+        extra: '--disable-ssl'
+
