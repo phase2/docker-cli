@@ -32,4 +32,3 @@ Please email outrigger@phase2technology.com with security concerns.
 ## Maintainers
 
 [![Phase2 Logo](https://s3.amazonaws.com/phase2.public/logos/phase2-logo.png)](https://www.phase2technology.com)
-
