@@ -73,6 +73,9 @@ RUN \
   # Also write yarn to the default-packages file to be installed with nvm
   . "$HOME"/.profile && echo "yarn" > "$NVM_DIR"/default-packages
 
+RUN mkdir -p /home/docker/.drush/config
+COPY ./home/docker/.drush/config/drush.yml /home/docker/.drush/config
+
 ENV PATH=$PATH:/var/www/vendor/bin
 # IMPORTANT! Switching back to the root user as the last instruction.
 USER root
