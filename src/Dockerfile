@@ -63,6 +63,9 @@ RUN apt-get clean && \
   apt-get install expect -y && \
   apt-get install vim -y
 
+# Update wp cli
+RUN wp cli update --yes
+
 # All further commands will be performed as the docker user.
 USER docker
 SHELL ["/bin/bash", "-c"]
