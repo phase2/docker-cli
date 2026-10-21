@@ -1,0 +1,83 @@
+---
+name: "build interim service-cli images"
+
+# Temporary: builds docksal/cli from the phase2/service-cli fork until
+# https://github.com/docksal/service-cli/pull/350 is merged and released.
+
+on:
+  workflow_dispatch:
+  schedule:
+  - cron: '0 10 * * 0' # Every Sunday at 10AM
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  IMAGE: ghcr.io/${{ github.repository_owner }}/service-cli
+  SOURCE_REPO: phase2/service-cli
+  SOURCE_REF: phase2-interim
+
+jobs:
+  build:
+    name: "Build: ${{ matrix.version }}/${{ matrix.arch }}"
+    runs-on: ${{ matrix.runner }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ["8.2", "8.3", "8.4"]
+        arch: [amd64, arm64]
+        include:
+          - arch: amd64
+            runner: ubuntu-24.04
+          - arch: arm64
+            runner: ubuntu-24.04-arm
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          repository: ${{ env.SOURCE_REPO }}
+          ref: ${{ env.SOURCE_REF }}
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build
+        uses: docker/build-push-action@v7
+        with:
+          context: ${{ matrix.version }}
+          file: ${{ matrix.version }}/Dockerfile
+          build-args: VERSION=${{ matrix.version }}
+          tags: ${{ env.IMAGE }}:php${{ matrix.version }}-${{ matrix.arch }}
+          push: true
+          pull: true
+          no-cache: true
+
+  push:
+    name: "Push: ${{ matrix.version }}/multi"
+    runs-on: ubuntu-24.04
+    needs: build
+
+    strategy:
+      matrix:
+        version: ["8.2", "8.3", "8.4"]
+
+    steps:
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push multi-arch image
+        run: |
+          docker buildx imagetools create -t "${IMAGE}:php${{ matrix.version }}" \
+            "${IMAGE}:php${{ matrix.version }}-amd64" \
+            "${IMAGE}:php${{ matrix.version }}-arm64"

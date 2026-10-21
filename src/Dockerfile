@@ -1,7 +1,8 @@
+ARG CLI_IMAGE=docksal/cli
 ARG CLI_VERSION={{cli_version}}
 
 # Extend the Docksal CLI per https://docs.docksal.io/stack/extend-images/
-FROM docksal/cli:${CLI_VERSION}
+FROM ${CLI_IMAGE}:${CLI_VERSION}
 
 # See https://github.com/hadolint/hadolint/wiki/DL4006
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
