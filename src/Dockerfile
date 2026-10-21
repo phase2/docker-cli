@@ -8,9 +8,6 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 ARG TARGETARCH
 ARG HELM_VERSION=v2.17.0
-# Args defined before the FROM directive are not available in the build stage,
-# so cannot test CLI_VERSION directly here.
-ARG INSTALL_SQLITE=false
 
 # Install kubectl and helm client
 RUN curl -o /usr/local/bin/kubectl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/${TARGETARCH}/kubectl" && \
@@ -42,20 +39,6 @@ RUN curl https://awscli.amazonaws.com/awscli-exe-linux-"$(uname -m)".zip -o "aws
 # https://mikefarah.gitbook.io/yq/#wget
 RUN wget https://github.com/mikefarah/yq/releases/download/v4.21.1/yq_linux_${TARGETARCH}.tar.gz -O - |\
   tar xz && mv yq_linux_${TARGETARCH} /usr/bin/yq
-
-# Upgrade SQLite 3.x if specified in the build args.
-# @see https://www.drupal.org/project/drupal/issues/3346338
-# @see https://github.com/ddev/ddev/blob/a82397976cb06a440b23a81a474ceda13a428ae1/containers/ddev-webserver/Dockerfile#L124
-# @see https://github.com/docksal/service-cli/pull/327/files
-# Using the DDEV method since it doesn't have the side effects of the Docksal method.
-ARG SQLITE_VERSION="3.45.1"
-RUN if [ "$INSTALL_SQLITE" = "true" ]; then \
-  mkdir -p /tmp/sqlite3; \
-  wget -O /tmp/sqlite3/sqlite3.deb https://snapshot.debian.org/archive/debian/20240203T152533Z/pool/main/s/sqlite3/sqlite3_${SQLITE_VERSION}-1_${TARGETARCH}.deb; \
-  wget -O /tmp/sqlite3/libsqlite3.deb https://snapshot.debian.org/archive/debian/20240203T152533Z/pool/main/s/sqlite3/libsqlite3-0_${SQLITE_VERSION}-1_${TARGETARCH}.deb; \
-  apt-get install -y /tmp/sqlite3/*.deb; \
-  rm -rf /tmp/sqlite3; \
-fi
 
 # Install expect, vim
 RUN apt-get clean && \
