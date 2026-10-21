@@ -16,7 +16,7 @@ permissions:
 env:
   IMAGE: ghcr.io/${{ github.repository_owner }}/service-cli
   SOURCE_REPO: phase2/service-cli
-  SOURCE_REF: update-php-minor-versions
+  SOURCE_REF: phase2-interim
 
 jobs:
   build:
